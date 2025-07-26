@@ -2,6 +2,9 @@
   <div class="good-bad-bg">
     <div class="center-content">
       <h2>Bonne ou Mauvaise chance ?</h2>
+      <p class="subtitle">
+        Tire 5 cartes et choisis en une au hasard à la fin !
+      </p>
       <input
         v-model="name"
         :disabled="attempts >= maxAttempts || finalCardPicked"

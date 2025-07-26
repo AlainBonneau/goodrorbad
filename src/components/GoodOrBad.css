@@ -6,6 +6,13 @@
   justify-content: center;
   background: linear-gradient(to right, #246bfd 0 50%, #e63946 50% 100%);
 }
+.subtitle {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    max-width: 500px;
+}
 .separator {
   position: absolute;
   top: 0;
