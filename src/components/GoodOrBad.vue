@@ -95,7 +95,7 @@ import { ref } from "vue";
 import "./GoodOrBad.css";
 import messages from "../assets/messages.json";
 
-const maxAttempts = 5;
+const maxAttempts = 6;
 const name = ref("");
 const result = ref("");
 const isGood = ref(false);
