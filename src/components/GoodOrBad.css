@@ -1,0 +1,290 @@
+.good-bad-bg {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #246bfd 0 50%, #e63946 50% 100%);
+}
+.separator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 3px;
+  height: 100%;
+  background: #111;
+  z-index: 1;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px #0007;
+}
+.center-content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 2px 28px #0002;
+  padding: 2.7rem 3.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  align-items: center;
+  min-width: 380px;
+  max-width: 98vw;
+  width: 50%;
+}
+
+input,
+button {
+  padding: 0.7rem 1.3rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1.08rem;
+}
+button {
+  background: #246bfd;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: background 0.15s;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button:hover:enabled {
+  background: #194ba0;
+}
+
+/* Compteurs */
+.compteurs {
+  display: flex;
+  align-items: center;
+  font-size: 1.17rem;
+  font-weight: bold;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.good-count {
+  color: #246bfd;
+  font-size: 1.5rem;
+  padding: 0 7px;
+}
+.bad-count {
+  color: #e63946;
+  font-size: 1.5rem;
+  padding: 0 7px;
+}
+.sep {
+  color: #444;
+  font-size: 1.22rem;
+}
+
+/* Carte */
+.card-flip-container {
+  perspective: 1100px;
+  width: 85%;
+  height: 155px;
+  margin-top: 2rem;
+  max-width: 100vw;
+}
+.card-flip-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.8s cubic-bezier(0.63, 0.04, 0.27, 1.28);
+  transform-style: preserve-3d;
+}
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+.card-flip-front,
+.card-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.35rem;
+  font-weight: bold;
+  padding: 2.1rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  box-shadow: 0 4px 32px #0002;
+  border: 2.3px solid #999;
+}
+.card-flip-front {
+  border-color: #999;
+  color: #bbb;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  background: #f5f6fa;
+}
+.card-flip-back {
+  transform: rotateY(180deg);
+  border-color: #246bfd;
+}
+.card-flip-back.good {
+  border-color: #246bfd;
+  color: #246bfd;
+}
+.card-flip-back.bad {
+  border-color: #e63946;
+  color: #e63946;
+}
+.card-flip-front.good {
+  border-color: #246bfd;
+}
+.card-flip-front.bad {
+  border-color: #e63946;
+}
+
+/* Cartes finales */
+.final-cards-row {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+.final-choice-text {
+  font-size: 1.09rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #444;
+  font-weight: 500;
+}
+.final-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.final-card-container {
+  perspective: 900px;
+  width: 68px;
+  height: 90px;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+.final-card-container.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+.final-card-container.picked {
+  z-index: 2;
+}
+.final-card-flip-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.7s cubic-bezier(0.7, 0.09, 0.39, 1.3);
+  transform-style: preserve-3d;
+}
+.final-card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+.final-card-front,
+.final-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.2rem;
+  border-radius: 0.7rem;
+  background: #fff;
+  box-shadow: 0 3px 16px #0002;
+  border: 2.2px solid #bbb;
+}
+.final-card-front {
+  color: #bbb;
+  background: #f5f6fa;
+  border-color: #bbb;
+  font-size: 2.3rem;
+}
+.final-card-back {
+  transform: rotateY(180deg);
+  color: #111;
+  border-color: #246bfd;
+  font-size: 1.01rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+.final-result-block {
+  margin-top: 2.1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.final-big-card {
+  margin-top: 1.2rem;
+  background: #fff;
+  border-radius: 1.5rem;
+  font-size: 1.25rem;
+  padding: 2.1rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 6px 24px #0003;
+  max-width: 500px;
+  border: 3px solid #246bfd;
+  color: #246bfd;
+  transition: border 0.2s, color 0.2s;
+}
+.final-big-card.good {
+  border: 3px solid #246bfd;
+  color: #246bfd;
+}
+.final-big-card.bad {
+  border: 3px solid #e63946;
+  color: #e63946;
+}
+
+/* Responsive mobile */
+@media (max-width: 700px) {
+  .center-content {
+    min-width: 95vw;
+    width: 98vw;
+    padding: 1.1rem 0.2rem;
+    border-radius: 1rem;
+  }
+  .card-flip-container {
+    width: 98vw;
+    min-width: unset;
+    height: 115px;
+  }
+  .card-flip-front,
+  .card-flip-back {
+    font-size: 1.03rem;
+    padding: 1.1rem;
+    border-radius: 0.9rem;
+  }
+  .final-cards {
+    gap: 0.6rem;
+  }
+  .final-card-container {
+    width: 52px;
+    height: 69px;
+  }
+  .final-big-card {
+    font-size: 1.01rem;
+    padding: 1.1rem 0.4rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+    text-align: center;
+  }
+  input,
+  button {
+    font-size: 0.99rem;
+    padding: 0.6rem 0.7rem;
+  }
+  .compteurs {
+    font-size: 1.07rem;
+  }
+}
