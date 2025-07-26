@@ -1,5 +1,29 @@
-# Vue 3 + Vite
+# Bonne/Mauvaise chance
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Une petite application web ludique pour tester ta chance, inspirée par les jeux de hasard !
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+---
+
+## Fonctionnement
+
+- L'utilisateur entre son prénom et clique sur **Tenter ma chance**.
+- Une carte s'affiche en effectuant un flip 3D.
+- 50% de chances d'obtenir un message positif, 50% un message "malchance".
+- Un compteur bleu et rouge affiche le nombre de chances et malchances tirées.
+
+---
+
+## Stack utilisée
+
+- **Vue 3** (Composition API)
+- **CSS** (responsive, animation flip carte)
+- **Fichier JSON** pour la liste des messages
+
+---
+
+## 📱 Responsive
+
+- Design adaptatif : fonctionne aussi bien sur mobile que sur desktop.
+- Animation fluide à chaque tirage de carte.
+
+
