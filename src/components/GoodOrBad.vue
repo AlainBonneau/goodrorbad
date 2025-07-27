@@ -110,6 +110,9 @@
           {{ name }}, {{ shuffledCards[pickedCardIndex] }}
         </div>
       </div>
+      <div v-if="isGameOver" class="game-over-block">
+        <button @click="reloadPage">Rejouer</button>
+      </div>
     </div>
     <div class="separator"></div>
   </div>
@@ -138,6 +141,7 @@ const pickedCardIndex = ref(null as null | number);
 const shuffledCards = ref<string[]>([]);
 const showFinalCards = ref(false);
 const lastFlipDone = ref(false);
+const isGameOver = ref(false);
 
 // Fonction pour mélanger le tableau
 function shuffle<T>(array: T[]): T[] {
@@ -195,6 +199,7 @@ function pickFinalCard(index: number) {
   pickedCardIndex.value = index;
   setTimeout(() => {
     finalCardPicked.value = true;
+    isGameOver.value = true;
   }, 1200);
 }
 
@@ -206,5 +211,9 @@ function getFinalType(index: number | null) {
   if (messages.good.some((g) => msg.includes(g))) return "good";
   if (messages.bad.some((b) => msg.includes(b))) return "bad";
   return "";
+}
+
+function reloadPage() {
+  window.location.reload();
 }
 </script>
