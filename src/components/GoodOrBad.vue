@@ -28,9 +28,9 @@
       <div
         v-if="
           result &&
-          attempts < maxAttempts &&
-          !showFinalCards &&
-          !finalCardPicked
+          attempts <= maxAttempts &&
+          !finalCardPicked &&
+          (!showFinalCards || attempts < maxAttempts)
         "
         class="card-flip-container"
         :class="{ flipping: flipping }"
@@ -60,7 +60,12 @@
 
       <!-- Bouton de révélation après 5 tirages -->
       <div
-        v-if="attempts === maxAttempts && !finalCardPicked && !showFinalCards"
+        v-if="
+          attempts === maxAttempts &&
+          !finalCardPicked &&
+          !showFinalCards &&
+          lastFlipDone
+        "
         class="final-reveal-button"
       >
         <button @click="showFinalCards = true">
@@ -132,6 +137,7 @@ const finalCardPicked = ref(false);
 const pickedCardIndex = ref(null as null | number);
 const shuffledCards = ref<string[]>([]);
 const showFinalCards = ref(false);
+const lastFlipDone = ref(false);
 
 // Fonction pour mélanger le tableau
 function shuffle<T>(array: T[]): T[] {
@@ -176,6 +182,10 @@ const handleClick = () => {
 
   if (attempts.value === maxAttempts) {
     shuffledCards.value = shuffle(drawnCards.value);
+
+    setTimeout(() => {
+      lastFlipDone.value = true;
+    }, 1500);
   }
 };
 
