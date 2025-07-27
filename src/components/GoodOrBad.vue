@@ -24,17 +24,24 @@
         <span class="bad-count">{{ badCount }}</span>
       </div>
 
-      <!-- Carte flip (essais classiques) -->
+      <!-- Affichage de la carte retournée -->
       <div
         v-if="
-          result && attempts <= maxAttempts && attempts > 0 && !finalCardPicked
+          result &&
+          attempts < maxAttempts &&
+          !showFinalCards &&
+          !finalCardPicked
         "
         class="card-flip-container"
         :class="{ flipping: flipping }"
         :key="flipKey"
         @animationend="flipping = false"
       >
-        <div class="card-flip-inner" :class="{ flipped: flipping }">
+        <div
+          v-if="!showFinalCards"
+          class="card-flip-inner"
+          :class="{ flipped: flipping }"
+        >
           <div
             class="card-flip-front card"
             :class="{ good: isGood, bad: isBad }"
@@ -42,6 +49,7 @@
             ?
           </div>
           <div
+            v-if="!showFinalCards"
             class="card-flip-back card"
             :class="{ good: isGood, bad: isBad }"
           >
@@ -50,9 +58,19 @@
         </div>
       </div>
 
-      <!-- Cartes finales (mélangées) -->
+      <!-- Bouton de révélation après 5 tirages -->
       <div
-        v-if="attempts === maxAttempts && !finalCardPicked"
+        v-if="attempts === maxAttempts && !finalCardPicked && !showFinalCards"
+        class="final-reveal-button"
+      >
+        <button @click="showFinalCards = true">
+          Choisir votre carte finale
+        </button>
+      </div>
+
+      <!-- Affichage des cartes finales -->
+      <div
+        v-if="attempts === maxAttempts && !finalCardPicked && showFinalCards"
         class="final-cards-row"
       >
         <p class="final-choice-text">Choisis ta carte finale :</p>
@@ -113,7 +131,9 @@ const drawnCards = ref<string[]>([]);
 const finalCardPicked = ref(false);
 const pickedCardIndex = ref(null as null | number);
 const shuffledCards = ref<string[]>([]);
+const showFinalCards = ref(false);
 
+// Fonction pour mélanger le tableau
 function shuffle<T>(array: T[]): T[] {
   const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i--) {
@@ -123,6 +143,7 @@ function shuffle<T>(array: T[]): T[] {
   return arr;
 }
 
+// Fonction pour gérer le clic sur le bouton
 const handleClick = () => {
   if (!name.value.trim()) {
     alert("Entre ton prénom d'abord patate !");
@@ -158,6 +179,7 @@ const handleClick = () => {
   }
 };
 
+// Fonction pour choisir la carte finale
 function pickFinalCard(index: number) {
   if (pickedCardIndex.value !== null) return;
   pickedCardIndex.value = index;
@@ -166,6 +188,7 @@ function pickFinalCard(index: number) {
   }, 1200);
 }
 
+// Fonction pour obtenir le type de la carte finale
 function getFinalType(index: number | null) {
   if (index === null) return "";
   const msg = shuffledCards.value[index];
