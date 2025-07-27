@@ -26,7 +26,9 @@
 
       <!-- Carte flip (essais classiques) -->
       <div
-        v-if="result && attempts < maxAttempts"
+        v-if="
+          result && attempts <= maxAttempts && attempts > 0 && !finalCardPicked
+        "
         class="card-flip-container"
         :class="{ flipping: flipping }"
         :key="flipKey"
@@ -48,15 +50,15 @@
         </div>
       </div>
 
-      <!-- Cartes finales -->
+      <!-- Cartes finales (mélangées) -->
       <div
-        v-if="attempts >= maxAttempts && !finalCardPicked"
+        v-if="attempts === maxAttempts && !finalCardPicked"
         class="final-cards-row"
       >
         <p class="final-choice-text">Choisis ta carte finale :</p>
         <div class="final-cards">
           <div
-            v-for="(card, i) in 5"
+            v-for="(card, i) in shuffledCards"
             :key="'final-' + i"
             class="final-card-container"
             @click="pickFinalCard(i)"
@@ -71,7 +73,7 @@
             >
               <div class="final-card-front final-card">??</div>
               <div class="final-card-back final-card">
-                {{ finalMessages[i] }}
+                {{ card }}
               </div>
             </div>
           </div>
@@ -82,7 +84,7 @@
       <div v-if="finalCardPicked" class="final-result-block">
         <p class="final-choice-text">Voici ta carte finale !</p>
         <div class="final-big-card" :class="getFinalType(pickedCardIndex)">
-          {{ finalMessages[pickedCardIndex] }}
+          {{ name }}, {{ shuffledCards[pickedCardIndex] }}
         </div>
       </div>
     </div>
@@ -91,11 +93,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import "./GoodOrBad.css";
 import messages from "../assets/messages.json";
 
-const maxAttempts = 6;
+const maxAttempts = 5;
 const name = ref("");
 const result = ref("");
 const isGood = ref(false);
@@ -107,9 +109,19 @@ const goodCount = ref(0);
 const badCount = ref(0);
 const attempts = ref(0);
 
+const drawnCards = ref<string[]>([]);
 const finalCardPicked = ref(false);
 const pickedCardIndex = ref(null as null | number);
-const finalMessages = ref<string[]>([]);
+const shuffledCards = ref<string[]>([]);
+
+function shuffle<T>(array: T[]): T[] {
+  const arr = array.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 const handleClick = () => {
   if (!name.value.trim()) {
@@ -126,8 +138,8 @@ const handleClick = () => {
   isGood.value = good;
   isBad.value = !good;
   const arr = good ? messages.good : messages.bad;
-  const msg = arr[Math.floor(Math.random() * arr.length)];
-  result.value = `${name.value.trim()}, ${msg}`;
+  const pickedMessage = arr[Math.floor(Math.random() * arr.length)];
+  result.value = `${name.value.trim()}, ${pickedMessage}`;
 
   flipping.value = false;
   flipKey.value++;
@@ -139,12 +151,10 @@ const handleClick = () => {
   else badCount.value++;
   attempts.value++;
 
+  drawnCards.value.push(pickedMessage);
+
   if (attempts.value === maxAttempts) {
-    const pool = [...messages.good, ...messages.bad];
-    finalMessages.value = [];
-    for (let i = 0; i < 5; i++) {
-      finalMessages.value.push(pool[Math.floor(Math.random() * pool.length)]);
-    }
+    shuffledCards.value = shuffle(drawnCards.value);
   }
 };
 
@@ -156,12 +166,12 @@ function pickFinalCard(index: number) {
   }, 1200);
 }
 
-// Retourne "good" ou "bad" pour la carte finale
 function getFinalType(index: number | null) {
   if (index === null) return "";
-  const msg = finalMessages.value[index];
-  if (messages.good.includes(msg)) return "good";
-  if (messages.bad.includes(msg)) return "bad";
+  const msg = shuffledCards.value[index];
+  if (!msg) return "";
+  if (messages.good.some((g) => msg.includes(g))) return "good";
+  if (messages.bad.some((b) => msg.includes(b))) return "bad";
   return "";
 }
 </script>
