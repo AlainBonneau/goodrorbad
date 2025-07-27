@@ -116,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import "./GoodOrBad.css";
 import messages from "../assets/messages.json";
 
